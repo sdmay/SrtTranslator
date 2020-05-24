@@ -6,7 +6,7 @@ const projectId = process.env.PROJECTID;
 const translate = new Translate(
     {
         projectId,
-        keyFilename: process.env.KEY_FILENAME //eg my-project-0fwewexyz.json
+        keyFilename: process.env.KEY_FILENAME,
     }
 );
 const getSubtitle = filename => {
@@ -21,9 +21,9 @@ const tranlateLine = async (text, target) => {
 }
 const translateMovie = async (data, language) => {
     if (!Array.isArray(data)) return false;
-    const translatedMovie = await data.reduce(async (total, movie, ind) => {
+    await data.reduce(async (total, movie, ind) => {
         const collection = await total;
-        // await new Promise(resolve => setTimeout(resolve, 400));
+        // await new Promise(resolve => setTimeout(resolve, 400)); IF CHARACTER COUNT TOO LARGE
         const { text } = movie;
         const translation = await tranlateLine(text, language)
         movie.text = translation;
@@ -31,7 +31,6 @@ const translateMovie = async (data, language) => {
         console.log(`${Math.floor((ind / data.length) * 100)}%`)
         return collection;
     }, Promise.resolve([]));
-    return translatedMovie;
 }
 const formatFilename = (filename, language) => {
     const [newFileName] = filename.split('.');
@@ -54,7 +53,6 @@ const handleTranslation = async (filename, language) => {
         }, 0);
         console.log(totalCharacters, '[TOTAL CHARACTERS]')
         const translated = await translateMovie(data, language)
-        console.log('AWAIT TRANSLATED OVER', translated)
         saveTranslation(translated, filename, language);
     } catch (err) {
         console.log(err)
@@ -62,5 +60,4 @@ const handleTranslation = async (filename, language) => {
     }
 
 }
-console.log(process.argv);
 handleTranslation(process.argv[2], process.argv[3]);
