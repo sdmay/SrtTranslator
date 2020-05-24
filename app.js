@@ -1,11 +1,12 @@
 const { Translate } = require('@google-cloud/translate').v2;
 const fs = require('fs');
 const parser = require('subtitles-parser');
-const projectId = 'movie-translator-1576413390969'
+require('dotenv').config
+const projectId = process.env.PROJECTID;
 const translate = new Translate(
     {
         projectId,
-        keyFilename: 'Movie Translator-aa974f34fe6f.json' //eg my-project-0fwewexyz.json
+        keyFilename: process.env.KEY_FILENAME //eg my-project-0fwewexyz.json
     }
 );
 const getSubtitle = filename => {
