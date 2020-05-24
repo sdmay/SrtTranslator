@@ -21,7 +21,7 @@ const tranlateLine = async (text, target) => {
 }
 const translateMovie = async (data, language) => {
     if (!Array.isArray(data)) return false;
-    await data.reduce(async (total, movie, ind) => {
+    const translated = await data.reduce(async (total, movie, ind) => {
         const collection = await total;
         // await new Promise(resolve => setTimeout(resolve, 400)); IF CHARACTER COUNT TOO LARGE
         const { text } = movie;
@@ -31,6 +31,7 @@ const translateMovie = async (data, language) => {
         console.log(`${Math.floor((ind / data.length) * 100)}%`)
         return collection;
     }, Promise.resolve([]));
+    return translated;
 }
 const formatFilename = (filename, language) => {
     const [newFileName] = filename.split('.');
