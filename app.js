@@ -1,7 +1,7 @@
 const { Translate } = require('@google-cloud/translate').v2;
 const fs = require('fs');
 const parser = require('subtitles-parser');
-require('dotenv').config
+require('dotenv').config()
 const projectId = process.env.PROJECTID;
 const translate = new Translate(
     {
