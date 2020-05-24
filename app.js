@@ -2,7 +2,6 @@ const { Translate } = require('@google-cloud/translate').v2;
 const fs = require('fs');
 const parser = require('subtitles-parser');
 const projectId = 'movie-translator-1576413390969'
-// api-key = AIzaSyD86V5MXGukBDbrgF2gbNIdPOuzkEBgYQA
 const translate = new Translate(
     {
         projectId,
