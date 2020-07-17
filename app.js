@@ -2,17 +2,15 @@ const { Translate } = require('@google-cloud/translate').v2;
 const fs = require('fs');
 const parser = require('subtitles-parser');
 require('dotenv').config()
-const projectId = process.env.PROJECTID;
 const translate = new Translate(
     {
-        projectId,
+        projectId: process.env.PROJECTID,
         keyFilename: process.env.KEY_FILENAME,
     }
 );
 const getSubtitle = filename => {
     const srt = fs.readFileSync(filename, 'utf8');
-    const data = parser.fromSrt(srt);
-    return data;
+    return parser.fromSrt(srt);
 }
 
 const tranlateLine = async (text, target) => {
@@ -21,9 +19,8 @@ const tranlateLine = async (text, target) => {
 }
 const translateMovie = async (data, language) => {
     if (!Array.isArray(data)) return false;
-    const translated = await data.reduce(async (total, movie, ind) => {
+    return data.reduce(async (total, movie, ind) => {
         const collection = await total;
-        // await new Promise(resolve => setTimeout(resolve, 400)); IF CHARACTER COUNT TOO LARGE
         const { text } = movie;
         const translation = await tranlateLine(text, language)
         movie.text = translation;
@@ -31,7 +28,6 @@ const translateMovie = async (data, language) => {
         console.log(`${Math.floor((ind / data.length) * 100)}%`)
         return collection;
     }, Promise.resolve([]));
-    return translated;
 }
 const formatFilename = (filename, language) => {
     const [newFileName] = filename.split('.');

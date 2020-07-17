@@ -3,3 +3,4 @@
 *.srt
 Movie Translator-aa974f34fe6f.json
 .env
+package-lock.json
