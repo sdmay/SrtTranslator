@@ -2,10 +2,6 @@
 
 SRT Translator is simple program to translate an SRT file into the language of your choice.
 
-  - Type some Markdown on the left
-  - See HTML in the right
-  - Magic
-
 # How to use
 
   - npm install
