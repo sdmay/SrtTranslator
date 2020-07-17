@@ -40,14 +40,15 @@ const saveTranslation = (srt, filename, language) => {
         err => err ? console.log(err) : console.log('File Saved!')
     );
 }
+const getTotalCharacters = data => data.reduce((total, movie) => {
+    const { text } = movie;
+    total += text.split('').length;
+    return total;
+}, 0);
 const handleTranslation = async (filename, language) => {
     try {
         const data = getSubtitle(filename);
-        const totalCharacters = data.reduce((total, movie) => {
-            const { text } = movie;
-            total += text.split('').length;
-            return total;
-        }, 0);
+        const totalCharacters = getTotalCharacters(data);
         console.log(totalCharacters, '[TOTAL CHARACTERS]')
         const translated = await translateMovie(data, language)
         saveTranslation(translated, filename, language);
